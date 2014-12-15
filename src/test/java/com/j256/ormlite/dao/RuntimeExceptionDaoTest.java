@@ -48,66 +48,6 @@ import com.j256.ormlite.table.ObjectFactory;
 public class RuntimeExceptionDaoTest extends BaseCoreTest {
 
 	@Test
-	public void testIfAllMethodsAreThere() {
-		List<String> failedMessages = new ArrayList<String>();
-
-		List<Method> runtimeMethods =
-				new ArrayList<Method>(Arrays.asList(RuntimeExceptionDao.class.getDeclaredMethods()));
-
-		List<Method> daoMethods = new ArrayList<Method>(Arrays.asList(Dao.class.getDeclaredMethods()));
-		daoMethods.addAll(Arrays.asList(CloseableIterable.class.getDeclaredMethods()));
-		daoMethods.addAll(Arrays.asList(Iterable.class.getDeclaredMethods()));
-		Iterator<Method> daoIterator = daoMethods.iterator();
-		while (daoIterator.hasNext()) {
-			Method daoMethod = daoIterator.next();
-			boolean found = false;
-
-			// coverage magic
-			if (daoMethod.getName().equals("$VRi")) {
-				continue;
-			}
-
-			Iterator<Method> runtimeIterator = runtimeMethods.iterator();
-			while (runtimeIterator.hasNext()) {
-				Method runtimeMethod = runtimeIterator.next();
-				if (daoMethod.getName().equals(runtimeMethod.getName())
-						&& Arrays.equals(daoMethod.getParameterTypes(), runtimeMethod.getParameterTypes())
-						&& daoMethod.getReturnType().equals(runtimeMethod.getReturnType())) {
-					found = true;
-					daoIterator.remove();
-					runtimeIterator.remove();
-					break;
-				}
-			}
-
-			// make sure we found the method in RuntimeExceptionDao
-			if (!found) {
-				failedMessages.add(RuntimeExceptionDao.class.getName() + " did not include method: " + daoMethod);
-			}
-		}
-
-		// now see if we have any extra methods left over in RuntimeExceptionDao
-		for (Method runtimeMethod : runtimeMethods) {
-			// coverage magic
-			if (runtimeMethod.getName().startsWith("$")) {
-				continue;
-			}
-			// skip these
-			if (runtimeMethod.getName().equals("createDao") || runtimeMethod.getName().equals("logMessage")) {
-				continue;
-			}
-			failedMessages.add("Unknown RuntimeExceptionDao method: " + runtimeMethod);
-		}
-
-		if (!failedMessages.isEmpty()) {
-			for (String message : failedMessages) {
-				System.err.println(message);
-			}
-			fail(failedMessages.get(0) + ", see the console for more");
-		}
-	}
-
-	@Test
 	public void testCoverage() throws Exception {
 		Dao<Foo, Integer> exceptionDao = createDao(Foo.class, true);
 		RuntimeExceptionDao<Foo, Integer> dao = new RuntimeExceptionDao<Foo, Integer>(exceptionDao);
