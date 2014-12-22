@@ -35,10 +35,11 @@
 			<id>st</id>
 			<distributionManagement>
 				<repository>
-					<id>bintray-guitcastro-maven-com.g2l2.ormlite-core</id>
-					<name>guitcastro-maven-com.g2l2.ormlite-core</name>
-					<url>https://api.bintray.com/maven/guitcastro/maven/com.g2l2.ormlite-core</url>
+					<id>bintray-takenet-maven-net.take.ormlite.core</id>
+					<name>takenet-maven-net.take.ormlite.core</name>
+					<url>https://api.bintray.com/maven/takenet/maven/net.take.ormlite.core</url>
 				</repository>
+
 			</distributionManagement>
 		</profile>
 	</profiles>
